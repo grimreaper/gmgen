@@ -32,9 +32,6 @@ public final class MessageType
 	/** Singleton instance of Error message */
 	public static final MessageType ERROR = new MessageType("Error"); //$NON-NLS-1$
 
-	/** Singleton instance of Question message */
-	public static final MessageType QUESTION = new MessageType("Question"); //$NON-NLS-1$
-
 	private final String name;
 
 	private MessageType(final String name)
@@ -46,13 +43,6 @@ public final class MessageType
 	public String toString()
 	{
 		return name;
-	}
-
-	// Prevent subclasses from overriding Object.equals
-	@Override
-	public boolean equals(final Object that)
-	{
-		return super.equals(that);
 	}
 
 	@Override

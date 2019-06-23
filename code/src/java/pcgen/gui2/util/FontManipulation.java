@@ -133,29 +133,6 @@ public final class FontManipulation
 	}
 
 	/**
-	 * For extra smaller font.
-	 * 
-	 * @param f
-	 *            base font
-	 */
-	private static Font xsmall(Font f)
-	{
-		return f.deriveFont(f.getSize() * 0.833f);
-	}
-
-	/**
-	 * For extra smaller font.
-	 * 
-	 * @param container
-	 *            element to change the font of
-	 */
-	public static void xsmall(Container container)
-	{
-		Font font = container.getFont();
-		container.setFont(xsmall(font));
-	}
-
-	/**
 	 * For less important text, like grayed out italic.
 	 * 
 	 * @param f

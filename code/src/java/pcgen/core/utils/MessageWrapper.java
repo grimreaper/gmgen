@@ -33,23 +33,8 @@ public class MessageWrapper
 	 * @param message
 	 * @param title
 	 * @param messageType
-	 * @param parent
 	 */
-	public MessageWrapper(final Object message, final String title, final MessageType messageType, final Object parent)
-	{
-		this.message = message;
-		this.title = title;
-		this.messageType = messageType;
-		this.parent = parent;
-	}
-
-	/**
-	 * Constructor
-	 * @param message
-	 * @param title
-	 * @param messageType
-	 */
-	public MessageWrapper(final Object message, final String title, final MessageType messageType)
+	MessageWrapper(final Object message, final String title, final MessageType messageType)
 	{
 		this.message = message;
 		this.title = title;

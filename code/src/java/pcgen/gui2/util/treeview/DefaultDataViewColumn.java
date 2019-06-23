@@ -33,17 +33,12 @@ public class DefaultDataViewColumn implements DataViewColumn
 		this(name, dataclass, false, false);
 	}
 
-	public DefaultDataViewColumn(String name, Class<?> dataclass, boolean visible)
-	{
-		this(name, dataclass, visible, false);
-	}
-
-	public DefaultDataViewColumn(String name, Class<?> dataclass, boolean visible, boolean editable)
+	private DefaultDataViewColumn(String name, Class<?> dataclass, boolean visible, boolean editable)
 	{
 		this(name, dataclass, visible, editable, true);
 	}
 
-	public DefaultDataViewColumn(String name, Class<?> dataclass, boolean visible, boolean editable, boolean cache)
+	private DefaultDataViewColumn(String name, Class<?> dataclass, boolean visible, boolean editable, boolean cache)
 	{
 		if (name.startsWith("in_"))
 		{

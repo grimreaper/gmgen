@@ -327,8 +327,6 @@ public final class Main
 		parser.addArgument("-s", "--settingsdir").nargs(1)
 			.type(Arguments.fileType().verifyIsDirectory().verifyCanRead().verifyExists());
 
-		parser.addArgument("-o", "--outputfile").nargs(1)
-			.type(Arguments.fileType().verifyCanCreate().verifyCanWrite().verifyNotExists());
 		return parser;
 	}
 

@@ -27,7 +27,6 @@ import javax.swing.ActionMap;
 import javax.swing.JOptionPane;
 
 import pcgen.facade.core.CharacterFacade;
-import pcgen.facade.core.SourceSelectionFacade;
 import pcgen.facade.util.ReferenceFacade;
 import pcgen.facade.util.event.ReferenceEvent;
 import pcgen.facade.util.event.ReferenceListener;
@@ -39,7 +38,6 @@ import pcgen.gui2.tools.PCGenAction;
 import pcgen.gui3.JFXPanelFromResource;
 import pcgen.gui3.dialog.CalculatorDialogController;
 import pcgen.gui3.dialog.DebugDialog;
-import pcgen.system.CharacterManager;
 import pcgen.system.ConfigurationSettings;
 import pcgen.system.LanguageBundle;
 import pcgen.util.Logging;
@@ -104,13 +102,6 @@ public final class PCGenActionMap extends ActionMap
 	private void initActions()
 	{
 		put(FILE_COMMAND, new FileAction());
-
-		put(OPEN_PARTY_COMMAND, new OpenPartyAction());
-		put(OPEN_RECENT_PARTY_COMMAND, new OpenRecentAction());
-		put(CLOSE_PARTY_COMMAND, new ClosePartyAction());
-		put(SAVE_PARTY_COMMAND, new SavePartyAction());
-		put(SAVEAS_PARTY_COMMAND, new SaveAsPartyAction());
-
 		put(EXIT_COMMAND, new ExitAction());
 
 		put(EDIT_COMMAND, new EditAction());
@@ -124,7 +115,6 @@ public final class PCGenActionMap extends ActionMap
 
 		put(HELP_COMMAND, new HelpAction());
 		put(HELP_DOCS_COMMAND, new DocsHelpAction());
-		put(HELP_OGL_COMMAND, new OGLHelpAction());
 		put(HELP_ABOUT_COMMAND, new AboutHelpAction());
 	}
 
@@ -232,84 +222,6 @@ public final class PCGenActionMap extends ActionMap
 		{
 			super(MNU_FILE);
 		}
-
-	}
-
-	private static final class OpenRecentAction extends PCGenAction
-	{
-
-		private OpenRecentAction()
-		{
-			super("mnuOpenRecent");
-		}
-
-	}
-
-	private final class OpenPartyAction extends PCGenAction
-	{
-
-		private OpenPartyAction()
-		{
-			super("mnuFilePartyOpen", OPEN_PARTY_COMMAND, Icons.Open16);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			frame.showOpenPartyChooser();
-		}
-
-	}
-
-	private final class ClosePartyAction extends PCGenAction
-	{
-
-		private ClosePartyAction()
-		{
-			super("mnuFilePartyClose", CLOSE_PARTY_COMMAND, Icons.Close16);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			frame.closeAllCharacters();
-		}
-
-	}
-
-	private final class SavePartyAction extends CharacterAction
-	{
-
-		private SavePartyAction()
-		{
-			super("mnuFilePartySave", SAVE_PARTY_COMMAND, Icons.Save16);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			if (frame.saveAllCharacters() && !CharacterManager.saveCurrentParty())
-			{
-				frame.showSavePartyChooser();
-			}
-		}
-
-	}
-
-	private final class SaveAsPartyAction extends CharacterAction
-	{
-
-		private SaveAsPartyAction()
-		{
-			super("mnuFilePartySaveAs", SAVEAS_PARTY_COMMAND, Icons.SaveAs16);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			frame.showSavePartyChooser();
-		}
-
 	}
 
 	private final class ExitAction extends PCGenAction
@@ -324,74 +236,6 @@ public final class PCGenActionMap extends ActionMap
 		public void actionPerformed(ActionEvent e)
 		{
 			PCGenUIManager.closePCGen();
-		}
-
-	}
-
-	private final class ReloadSourcesAction extends PCGenAction implements ReferenceListener<SourceSelectionFacade>
-	{
-
-		private ReloadSourcesAction()
-		{
-			super("mnuSourcesReload", SOURCES_RELOAD_COMMAND, "shift-shortcut R");
-			ReferenceFacade<SourceSelectionFacade> currentSourceSelectionRef =
-					uiContext.getCurrentSourceSelectionRef();
-			currentSourceSelectionRef.addReferenceListener(this);
-			checkEnabled(currentSourceSelectionRef.get());
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			SourceSelectionFacade sources =
-					uiContext.getCurrentSourceSelectionRef().get();
-			if (sources != null)
-			{
-				frame.unloadSources();
-				frame.loadSourceSelection(sources);
-			}
-		}
-
-		@Override
-		public void referenceChanged(ReferenceEvent<SourceSelectionFacade> e)
-		{
-			checkEnabled(e.getNewReference());
-		}
-
-		private void checkEnabled(SourceSelectionFacade sources)
-		{
-			setEnabled(sources != null && !sources.getCampaigns().isEmpty());
-		}
-
-	}
-
-	private final class UnloadSourcesAction extends PCGenAction implements ReferenceListener<SourceSelectionFacade>
-	{
-
-		private UnloadSourcesAction()
-		{
-			super("mnuSourcesUnload", SOURCES_UNLOAD_COMMAND, "shortcut U");
-			ReferenceFacade<SourceSelectionFacade> currentSourceSelectionRef =
-					uiContext.getCurrentSourceSelectionRef();
-			currentSourceSelectionRef.addReferenceListener(this);
-			checkEnabled(currentSourceSelectionRef.get());
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			frame.unloadSources();
-		}
-
-		@Override
-		public void referenceChanged(ReferenceEvent<SourceSelectionFacade> e)
-		{
-			checkEnabled(e.getNewReference());
-		}
-
-		private void checkEnabled(SourceSelectionFacade sources)
-		{
-			setEnabled(sources != null && !sources.getCampaigns().isEmpty());
 		}
 
 	}
@@ -431,22 +275,6 @@ public final class PCGenActionMap extends ActionMap
 
 	}
 
-	private final class OGLHelpAction extends PCGenAction
-	{
-
-		private OGLHelpAction()
-		{
-			super("mnuHelpOGL", HELP_OGL_COMMAND);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			frame.showOGLDialog();
-		}
-
-	}
-
 	private final class AboutHelpAction extends PCGenAction
 	{
 
@@ -469,11 +297,6 @@ public final class PCGenActionMap extends ActionMap
 		private CharacterAction(String prop, String command, String accelerator)
 		{
 			this(prop, command, accelerator, null);
-		}
-
-		private CharacterAction(String prop, String command, Icons icon)
-		{
-			this(prop, command, null, icon);
 		}
 
 		private CharacterAction(String prop, String command, String accelerator, Icons icon)

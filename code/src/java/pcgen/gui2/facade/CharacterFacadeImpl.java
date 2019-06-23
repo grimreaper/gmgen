@@ -1220,28 +1220,6 @@ public class CharacterFacadeImpl
 		}
 	}
 
-	/**
-	 * Update the  
-	 */
-	private void showPointPool()
-	{
-		if (poolPointText == null)
-		{
-			return;
-		}
-
-		int poolPointsTotal = 0;
-
-		for (PCLevelInfo pcl : charDisplay.getLevelInfo())
-		{
-			poolPointsTotal += pcl.getSkillPointsGained(theCharacter);
-		}
-
-		int poolPointsUsed = poolPointsTotal - theCharacter.getSkillPoints();
-
-		poolPointText.set(poolPointsUsed + " / " + poolPointsTotal); //$NON-NLS-1$
-	}
-
 	@Override
 	public ReferenceFacade<Race> getRaceRef()
 	{
